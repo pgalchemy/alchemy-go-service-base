@@ -1,0 +1,6 @@
+vendor/**
+!vendor/manifest
+gin-bin
+/grs-consumer-service
+/app
+/cmd/migrations/migrations
