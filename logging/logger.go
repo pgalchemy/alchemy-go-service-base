@@ -20,6 +20,18 @@ func New(f logrus.Formatter) *logrus.Logger {
 	return l
 }
 
+// ErrorLogMiddleware provides a gin middleware for logging errors
+func ErrorLogMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
+
+		if len(c.Errors) > 0 {
+			rs := scope.GetRequestScope(c)
+			rs.Logger.WithField("error", c.Errors[0]).Warn("error: ", c.Errors[0].Error())
+		}
+	}
+}
+
 // AccessLogMiddleware provides a gin middleware for logging requests
 func AccessLogMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
