@@ -8,6 +8,7 @@ Provides an opinionated set of default configurations for a web service written 
 * access logging
 * custom request specific logger provided via middleware
 * instrumentation for [prometheus](https://prometheus.io/) using [the golang client](https://github.com/prometheus/client_golang)
+* HTTP error definition / middleware
 
 ## Installation
 
