@@ -23,6 +23,14 @@ With go:
 go get github.com:pgalchemy/alchemy-go-service-base
 ```
 
+## Development
+
+If using gvt for development, the simplest (yet inconvenient) way to test library changes in a service is via rsync:
+
+```
+rsync -azP --delete ../alchemy-go-service-base/* vendor/github.com/pgalchemy/alchemy-go-service-base
+```
+
 ## Usage
 
 ```golang
