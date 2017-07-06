@@ -12,6 +12,8 @@ Provides an opinionated set of default configurations for a web service written 
 
 ## Installation
 
+Prior to installation, refer to this guide from travis: [https://docs.travis-ci.com/user/languages/go/#Installing-Private-Dependencies](https://docs.travis-ci.com/user/languages/go/#Installing-Private-Dependencies)
+
 With gvt:
 
 ```
