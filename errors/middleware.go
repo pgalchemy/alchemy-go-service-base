@@ -18,7 +18,7 @@ func Middleware(c *gin.Context) {
 		if len(c.Errors) > 0 {
 			err = c.Errors[0].Err
 		} else {
-			err = InternalServerError("Internal server error. Please try again later.")
+			err = ResourceNotFoundError("Route not found.")
 		}
 
 		switch v := err.(type) {
