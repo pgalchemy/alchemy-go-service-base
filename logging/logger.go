@@ -44,6 +44,10 @@ func AccessLogMiddleware() gin.HandlerFunc {
 		// Continue
 		c.Next()
 
+		if path == "/metrics" {
+			return
+		}
+
 		end := time.Now()
 		latency := end.Sub(start) / time.Millisecond
 		clientIP := c.ClientIP()

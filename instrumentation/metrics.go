@@ -54,6 +54,12 @@ func init() {
 
 // Middleware provides a gin middleware for collecting metric data
 func Middleware(c *gin.Context) {
+	// dont track metrics requests
+	if c.Request.URL.Path == "/metrics" {
+		c.Next()
+		return
+	}
+
 	// Mark start time
 	start := time.Now()
 
