@@ -13,6 +13,9 @@ type (
 	Config struct {
 		// Logger is the logrus logging instance to utilize in middlewares
 		Logger *logrus.Logger
+
+		// IgnoredPaths omits access logs for provided paths
+		IgnoredPaths []string
 	}
 )
 
@@ -21,10 +24,15 @@ func New(c *Config) *gin.Engine {
 	// Create server instance
 	e := gin.New()
 
+	ignored := []string{"/", ""}
+	if c.IgnoredPaths != nil {
+		ignored = c.IgnoredPaths
+	}
+
 	// Attach middlewares
 	if c.Logger != nil {
 		e.Use(scope.Middleware(c.Logger))
-		e.Use(logging.AccessLogMiddleware())
+		e.Use(logging.AccessLogMiddleware(&logging.AccessLogMiddlewareOptions{Ignore: ignored}))
 		e.Use(logging.ErrorLogMiddleware())
 	}
 
