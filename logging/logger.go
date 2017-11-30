@@ -11,6 +11,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type (
+	// AccessLogMiddlewareOptions configures the AccessLogMiddleware
+	AccessLogMiddlewareOptions struct {
+		Ignore []string
+	}
+)
+
 // New provides a new logger instance
 func New(f logrus.Formatter) *logrus.Logger {
 	l := logrus.New()
@@ -33,8 +40,15 @@ func ErrorLogMiddleware() gin.HandlerFunc {
 }
 
 // AccessLogMiddleware provides a gin middleware for logging requests
-func AccessLogMiddleware() gin.HandlerFunc {
+func AccessLogMiddleware(opts *AccessLogMiddlewareOptions) gin.HandlerFunc {
+	if opts.Ignore == nil {
+		opts.Ignore = []string{}
+	}
+
 	return func(c *gin.Context) {
+		if opts.ignored(c.Request.URL.Path) {
+			return
+		}
 		rs := scope.GetRequestScope(c)
 
 		// Get start time
@@ -71,6 +85,20 @@ func AccessLogMiddleware() gin.HandlerFunc {
 			"res-headers":    formatHeaders(c.Writer.Header()),
 		}).Info(fmt.Sprintf("%s %s %d", method, path, statusCode))
 	}
+}
+
+func (opts *AccessLogMiddlewareOptions) ignored(path string) bool {
+	if opts.Ignore == nil || len(opts.Ignore) == 0 {
+		return false
+	}
+
+	for _, v := range opts.Ignore {
+		if path == v {
+			return true
+		}
+	}
+
+	return false
 }
 
 func formatHeaders(h http.Header) map[string]string {
