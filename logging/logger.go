@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/pgalchemy/alchemy-go-service-base/scope"
+	"github.com/pgsuite/alchemy-go-service-base/scope"
 	"github.com/sirupsen/logrus"
 )
 
